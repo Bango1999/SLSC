@@ -2,7 +2,7 @@
 
 (SLmod Stats Cron) converts lua table to json object, sends to a web-based API via POST request
 
-This app is meant to be deployed on every 229th game server you want statistics for.
+This app is meant to be deployed on every 229th game server you want statistics for.<br />
 App needs valid authenticators (id,token) pair of values from the S3 server.
 
 ## Usage
@@ -12,8 +12,8 @@ Prereqs:
 - be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/S3)
 
 
-Edit global config variables in config.js
-Then run the app
+Edit global config variables in config.js<br />
+Then run the app:
 - type 'node cron.js' in terminal from repo directory
 - ctrl + c to terminate the node application running in the terminal window.
 
