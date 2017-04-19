@@ -21,9 +21,7 @@ const sendURL = 'http://1stcav.servegame.com:229/api/dcs/slmod/update';
 // Default: 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
 // The Directory + Filename of the lua stats file for node
 
-//const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
-
-const statsDir = 'C:\\Users\\Bango\\Saved Games\\stats.lua';
+const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
 
 // Default: 'stats'
 // The Name of the Table in the lua file to parse into JSON
@@ -40,7 +38,7 @@ const schedule = '* * * * *';
 // Default: false
 // Make true if you want to Backup the latest sent JSON data
 
-const writeJson = true;
+const writeJson = false;
 
 // Default: process.cwd() + '\\json\\stats.json'
 // Or specify a specific Directory + Filename to Backup the latest sent JSON data to
