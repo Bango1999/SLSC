@@ -29,25 +29,24 @@ This could help IP's see logged hours, or just let people go and see their kills
 
 ## Installation
 
-1) Install node.js (full installer .msi file)
+1) Install node.js (full installer .msi file)<br />
    https://nodejs.org/en/download/
 
-2) Download node_child.zip from secure download location
-   ? TS channel Flight Alpha file browser ?
+2) Download this repo
 
 3) Extract the zip file to wherever you want the server files to live
 
-4) Open a command prompt in the folder you just created (Windows)
+4) Open a command prompt in the folder you just created (Windows)<br />
    http://stackoverflow.com/a/23700078/4445768
 
 5) Type 'npm install' and press enter
 
-6) Edit config.js in a text editor.
-   At the top of the file, you will see a bunch of 'const' variables.
+6) Edit config.js in a text editor.<br />
+   At the top of the file, you will see a bunch of 'const' variables.<br />
    Set them according to your personal server/setup. Defaults should mostly be fine.
 
-7) Test by typing 'node cron.js' in the cmd prompt window and pressing enter.
-   By default it will run once a minute, so be patient while you wait for it to log its first attempt.
+7) Test by typing 'node cron.js' in the cmd prompt window and pressing enter.<br />
+   By default it will run once a minute, so be patient while you wait for it to log its first attempt.<br />
    When you start seeing logs, use them to troubleshoot or confirm everything is working.
 
 8) ctrl + c to terminate the node application running in the cmd window.
