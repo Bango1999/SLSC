@@ -1,0 +1,16 @@
+{
+  "name": "SLSC",
+  "version": "1.0.0",
+  "description": "(SLmod Stats Cron) converts lua table to json object, sends to a web-based API via POST request",
+  "main": "cron.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Huckleberry",
+  "license": "MIT",
+  "dependencies": {
+    "lua2json": "^1.1.2",
+    "node-cron": "^1.1.3",
+    "request": "^2.81.0"
+  }
+}
