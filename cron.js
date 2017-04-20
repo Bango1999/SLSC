@@ -1,8 +1,8 @@
-var request = require('request');
-var lua2json = require('lua2json');
-var cron = require('node-cron');
-var fs = require('fs');
-var CONFIG = require(process.cwd() + '\\config.js');
+const request = require('request');
+const lua2json = require('lua2json');
+const cron = require('node-cron');
+const fs = require('fs');
+const CONFIG = require(process.cwd() + '\\config.js');
 
 //instantiate the task:
 // check periodically for new stats, send it to the mothership
@@ -36,16 +36,15 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
     request.post(CONFIG.getSendURL(), {json: true, body: obj}, function(err, res, body) {
       if (res && res.statusCode === 200) {
           console.log('Sent Successfully');
-          if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
-          removeLua(); //delete the evidence
       } else {
         console.log('Sending Failed:');
-        console.log(err);
-        if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
+        console.log(err || res);
       }
+	  if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
+      removeLua(); //delete the evidence
     });
   }
-
+  //helper function, puts json into a parent object which has server info
   function servify(json) {
     var serverjson = {
       "id": CONFIG.getServerId(),
@@ -56,7 +55,8 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
     serverjson['stats'] = json;
     return serverjson;
   }
-
+  //helper function, is called when there is a new lua file found
+  //parse lua to json, servify and send json
   function sendNewJson() {
     //process lua table into json string, write that string to file
     lua2json.getVariable(CONFIG.getStatsDir(), CONFIG.getStatsVar(), function(err, json) {
