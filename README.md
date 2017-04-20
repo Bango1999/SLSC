@@ -17,7 +17,9 @@ Then run the app:
 - type 'node cron.js' in terminal from repo directory
 - ctrl + c to terminate the node application running in the terminal window.
 
-Simple as that
+WINDOWS ONLY EASE OF ACCESS:
+- you can run the app from the SLSC.bat file
+- you can create a shortcut to SLSC.bat and place it anywhere you want, and run from that
 
 ## Motivation
 
