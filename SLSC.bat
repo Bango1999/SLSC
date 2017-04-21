@@ -1,1 +1,1 @@
-node cron.js
+node cron.js -d
