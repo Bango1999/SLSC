@@ -9,19 +9,21 @@
  const serverName = 'Server Running SLmod';
 
 
-
+// Default: 0, 'token_for_server_0'
 // these 2 variables should be given to you by the person hosting the stats server
+// Only necessary to configure if you are POSTing to an S3 server
 
  const serverId = 0;
- const serverToken = "token_for_server_0";
+ const serverToken = 'token_for_server_0';
 
 
 
 // Default: [ S3 Server URL/IP ]/api/dcs/slmod/update
 // The link to your S3 server + and the default S3 API route
-
-const s3Server = 'http://1stcav.servegame.com:229';
-  const sendURL = s3Server + '/api/dcs/slmod/update';
+//   If you are NOT running an S3 server, you will need to edit the route in postPath to fit the route for your own API
+//   If you ARE running an S3 server, only edit serverURL to match where you are hosting your S3 server
+const serverURL = 'http://1stcav.servegame.com:229';
+  const postPath = serverURL + '/api/dcs/slmod/update';
 
 
 
@@ -34,6 +36,8 @@ const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.l
 
 // Default: 'stats'
 // The Name of the Table in the lua file to parse into JSON
+// This is the default value for all of SLmod, so best leave it alone
+//  unless you know something I don't
 
 const statsVar = 'stats';
 
@@ -62,35 +66,19 @@ const jsonDir = process.cwd() + '\\json\\stats.json';
 
 
 
+//----------------------------------------
+// DO NOT EDIT PAST THIS LINE
 
-// DO NOT TOUCH THE REST
+
 module.exports = {
-    getSchedule: function() {
-        return schedule
-    },
-    getSendURL: function() {
-        return sendURL
-    },
-    getStatsDir: function() {
-        return statsDir
-    },
-    getStatsVar: function() {
-        return statsVar
-    },
-    getWriteJson: function() {
-        return writeJson
-    },
-    getJsonDir: function() {
-        return jsonDir
-    },
-    getServerName: function() {
-        return serverName
-    },
-    getServerId: function() {
-        return serverId
-    },
-    getServerToken: function() {
-        return serverToken
-    }
+  getJsonDir: function() { return jsonDir },
+  getSchedule: function() { return schedule },
+  getPostPath: function() { return postPath },
+  getStatsDir: function() { return statsDir },
+  getStatsVar: function() { return statsVar },
+  getServerId: function() { return serverId },
+  getWriteJson: function() { return writeJson },
+  getServerName: function() { return serverName },
+  getServerToken: function() { return serverToken }
 };
 // By: Huckleberry
