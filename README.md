@@ -2,7 +2,7 @@
 
 (SLmod Stats Cron) converts lua table to json object, sends to an arbitrary web-based API via POST request
 
-# This app is meant to be deployed on every DCS + SLmod_S3 game server you want to post statistics for.
+### This app is meant to be deployed on every DCS + SLmod_S3 game server you want to post statistics for.
 If you plan on running this app alongside an S3 server, you will need valid authenticators (id, token) pair of values from the S3 server.<br/>
 If you do not plan on running an S3 server, that's OK too!  SLSC is agnostic.  You can send the SLmod stats as a JSON object to any server you like that accepts POST requests.
 
