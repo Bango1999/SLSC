@@ -36,30 +36,37 @@ function log(data, level) {
 var task = cron.schedule(CONFIG.getSchedule(), function() {
   //helper function, remove the stats.lua file so we wont keep sending the same 'new' data
   function removeLua() {
-    log('Removing old LUA...',i);
+    log('   Removing old LUA...',i);
     fs.unlink(CONFIG.getStatsDir(), function(err) {
       if(err && err.code == 'ENOENT') { log('Old LUA does not exist, remove failed at ' + CONFIG.getStatsDir(), e) }
-      else if (err) { log('Something went wrong while trying to remove old LUA at ' + CONFIG.getStatsDir(), e) }
-      else { log('Old LUA removed',i) }
+      else if (err) { log(err, e) }
+      else { log('   Old LUA removed',i) }
     });
   }
   //helper function, backup the JSON object to a JSON file
   function backupJson(json) {
-    log('Backing up JSON to file...','info');
+    log('   Backing up JSON to file...',i);
     fs.writeFile(CONFIG.getJsonDir(), JSON.stringify(json),
       function(err) {
-        if (err) { log('ERROR: ' + err,e) }
-        else { log('Backup JSON saved',i) }
+        if (err) { log(err,e) }
+        else { log('   Backup JSON saved',i) }
       }
     );
   }
   //helper function, prints type of variable
   function send(obj) {
-    log('Sending update to ' + CONFIG.getPostPath(),'task');
+    log('   Sending update to ' + CONFIG.getPostPath(),i);
     request.post(CONFIG.getPostPath(), {json: true, body: obj}, function(err, res, body) {
       if (res && res.statusCode === 200) {
-        log('Sent Successfully',i);
-        removeLua(); //delete the evidence
+        log('   Update Handshake',i);
+        //S3 server sends 'pass' or 'fail' if it updated or not
+        if (res.body === 'fail') { //S3 Update Fail condition
+          log('JSON Sent, but failed to update the S3 DB',e);
+          log('   Make sure the access token and server ID are configured correctly in config.js',i);
+        }
+        else if (res.body === 'pass') { log('S3 Server Update Successful',t) } //S3 Update Condition
+        else { log('Update Sent',t) } //generic response
+        removeLua(); //delete the task trigger
       }
       else { log(err || res, e) }
 	    if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
@@ -83,7 +90,7 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
     lua2json.getVariable(CONFIG.getStatsDir(), CONFIG.getStatsVar(), function(err, json) {
       if (err) { log(err,e) }
       else {
-        log('LUA parsed to JSON',i);
+        log('   LUA parsed to JSON',i);
         send(servify(json));
       }
     });
@@ -91,11 +98,15 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
 
   //---------------------------------------------------------------
   //start actually doing stuff instead of defining helper functions
-  log('   Checking for new LUA...','task');
+  log(' ',t);
+  log('Checking for new LUA...',t);
   if (fs.existsSync(CONFIG.getStatsDir())) {
-    log('   Found new LUA file, will send.',t);
+    log('Found new LUA!',t);
     sendNewJson();
-  } else {log('   Waiting for next Interval on (' + CONFIG.getSchedule() +')',t)}
+  } else {
+    log('None Found. Waiting...',t);
+    log('Interval Setting: (' + CONFIG.getSchedule() +')',i);
+  }
 }, false);
 
 //start the cron task once and let it run until interrupt
