@@ -33,7 +33,6 @@ const serverURL = 'http://1stcav.servegame.com:229';
 const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
 
 
-
 // Default: 'stats'
 // The Name of the Table in the lua file to parse into JSON
 // This is the default value for all of SLmod, so best leave it alone

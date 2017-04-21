@@ -55,15 +55,14 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
   }
   //helper function, prints type of variable
   function send(obj) {
-    log('Sending update to ' + CONFIG.getSendURL(),'info');
-    request.post(CONFIG.getSendURL(), {json: true, body: obj}, function(err, res, body) {
-      if (res && res.statusCode === 200) { log('Sent Successfully',i) }
-      else {
-        log('Sending Failed:',e);
-        log(err || res, e);
+    log('Sending update to ' + CONFIG.getPostPath(),'task');
+    request.post(CONFIG.getPostPath(), {json: true, body: obj}, function(err, res, body) {
+      if (res && res.statusCode === 200) {
+        log('Sent Successfully',i);
+        removeLua(); //delete the evidence
       }
+      else { log(err || res, e) }
 	    if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
-      removeLua(); //delete the evidence
     });
   }
   //helper function, puts json into a parent object which has server info
@@ -82,7 +81,7 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
   function sendNewJson() {
     //process lua table into json string, write that string to file
     lua2json.getVariable(CONFIG.getStatsDir(), CONFIG.getStatsVar(), function(err, json) {
-      if (err) { log('ERROR parsing LUA to JSON!  Be sure your config setting for statsDir is correct.',e) }
+      if (err) { log(err,e) }
       else {
         log('LUA parsed to JSON',i);
         send(servify(json));
