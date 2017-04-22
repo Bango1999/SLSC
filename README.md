@@ -9,8 +9,8 @@ If you do not plan on running an S3 server, that's OK too!  SLSC is agnostic.  Y
 ## Usage
 
 Prereqs:
-- Be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/SLmod_S3) ([View Demo](http://1stcav.servegame.com:229/))
-- ( Optional ) Create/have someone create/someone already created an [S3 server](https://github.com/Bango1999/S3)
+- Be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/SLmod_S3)
+- ( Optional ) Create/have someone create/someone already created an [S3 server](https://github.com/Bango1999/S3) ([View Demo](http://1stcav.servegame.com:229/))
 
 
 Edit global config variables in config.js<br />
