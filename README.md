@@ -9,7 +9,7 @@ If you do not plan on running an S3 server, that's OK too!  SLSC is agnostic.  Y
 ## Usage
 
 Prereqs:
-- Be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/SLmod_S3)
+- Be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/SLmod_S3) ([View Demo](http://1stcav.servegame.com:229/))
 - ( Optional ) Create/have someone create/someone already created an [S3 server](https://github.com/Bango1999/S3)
 
 
@@ -31,7 +31,7 @@ WINDOWS ONLY EASE OF ACCESS:
 
 I fly helicopters in a simulator with a unit called the 229th. The simulator is DCS, and the mod is SLmod, which is really neat because it logs game statistics.
 
-The idea was, let's get that data from SLmod and make it web-facing so people can look anytime, say, what their flight hours are for a particular server.
+The idea was, let's get that data from SLmod and make it [web-facing](http://1stcav.servegame.com:229/) so people can look anytime, say, what their flight hours are for a particular server.
 
 This could help IP's see logged hours, or just let people go and see their kills or deaths.
 
