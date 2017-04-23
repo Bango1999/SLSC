@@ -18,11 +18,11 @@
 
 
 
-// Default: [ S3 Server URL/IP ]/api/dcs/slmod/update
+// Default: http://localhost:4000/api/dcs/slmod/update
 // The link to your S3 server + and the default S3 API route
 //   If you are NOT running an S3 server, you will need to edit the route in postPath to fit the route for your own API
 //   If you ARE running an S3 server, only edit serverURL to match where you are hosting your S3 server
-const serverURL = 'http://1stcav.servegame.com:229';
+const serverURL = 'http://localhost:4000';
   const postPath = serverURL + '/api/dcs/slmod/update';
 
 
@@ -31,14 +31,6 @@ const serverURL = 'http://1stcav.servegame.com:229';
 // The Directory + Filename of the lua stats file for node
 
 const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
-
-
-// Default: 'stats'
-// The Name of the Table in the lua file to parse into JSON
-// This is the default value for all of SLmod, so best leave it alone
-//  unless you know something I don't
-
-const statsVar = 'stats';
 
 
 
@@ -62,6 +54,15 @@ const writeJson = false;
 // Or specify a specific Directory + Filename to Backup the latest sent JSON data to
 
 const jsonDir = process.cwd() + '\\json\\stats.json';
+
+
+
+// Default: 'stats'
+// The Name of the Table in the lua file to parse into JSON
+// This is the default value for all of SLmod, so best leave it alone
+//  unless you know something I don't
+
+const statsVar = 'stats';
 
 
 

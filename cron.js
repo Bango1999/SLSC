@@ -88,7 +88,10 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
   function sendNewJson() {
     //process lua table into json string, write that string to file
     lua2json.getVariable(CONFIG.getStatsDir(), CONFIG.getStatsVar(), function(err, json) {
-      if (err) { log(err,e) }
+      if (err) {
+	       log('ERROR parsing LUA to JSON!  Be sure your config setting for statsDir is correct.',e);
+		     log(err,e);
+	      }
       else {
         log('   LUA parsed to JSON',i);
         send(servify(json));
