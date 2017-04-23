@@ -10,7 +10,7 @@ If you do not plan on running an S3 server, that's OK too!  SLSC is agnostic.  Y
 
 Prereqs:
 - Be hosting a DCS mission using [SLmod_S3](https://github.com/Bango1999/SLmod_S3)
-- ( Optional ) Create/have someone create/someone already created an [S3 server](https://github.com/Bango1999/S3) ([View Demo](http://1stcav.servegame.com:229/))
+- ( Optional ) Create/have someone create/someone already created an [S3 server](https://github.com/Bango1999/S3) ([See it in action](http://stats.229ahb.com:4000/))
 
 
 Edit global config variables in config.js<br />
@@ -24,8 +24,8 @@ Flags:
 - 'node cron.js -d': (default) normal logging
 
 WINDOWS ONLY EASE OF ACCESS:
-- you can run the app from the SLSC.bat file
-- you can create a shortcut to SLSC.bat and place it anywhere you want, and run from that
+- you can run the app from any of the SLSC.bat files
+- you can create shortcuts to SLSC.bat files and place them anywhere you want, and run from that
 
 ## Motivation
 
@@ -37,29 +37,24 @@ This could help IP's see logged hours, or just let people go and see their kills
 
 ## Installation
 
-1) Install node.js (full installer .msi file)<br />
-   https://nodejs.org/en/download/
+1) Install node.js (full installer .msi file for Windows)<br />
+   https://nodejs.org/en/download/<br/>
+   or in linux (apt-get/yum install nodejs)
 
-2) Download this repo
+2) from a terminal, git clone https://github.com/Bango1999/SLSC.git
 
-3) Extract the zip file to wherever you want the server files to live
-
-4) Open a command prompt in the folder you just created (Windows)<br />
-   http://stackoverflow.com/a/23700078/4445768
-
-5) Type 'npm install' and press enter
+3a) If Windows, go to the project folder you just cloned in file explorer and run the file Update_SLSC.bat<br/>
+3b) If not Windows, stay inside the terminal and run 'npm update'
 
 6) Edit config.js in a text editor.<br />
    At the top of the file, you will see a bunch of 'const' variables.<br />
    Set them according to your personal server/setup. Defaults should mostly be fine.
 
-7) Test by typing 'node cron.js -v' in the cmd prompt window and pressing enter.<br />
-   By default it will run once a minute, so be patient while you wait for it to log its first attempt.<br />
-   When you start seeing logs, use them to troubleshoot or confirm everything is working.
-
-8) ctrl + c to terminate the node application running in the cmd window.
-
-
+7a) If Windows, run the file SLSC_Debug.bat
+7b) If not Windows, test by running 'node cron.js -v' in the cmd prompt window<br />
+    By default it will run once a minute, so be patient while you wait for it to log its first attempt.<br />
+    When you start seeing logs, use them to troubleshoot or confirm everything is working.
+    ctrl + c to terminate the node application running in the cmd window.
 ## License
 
 MIT
