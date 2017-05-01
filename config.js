@@ -29,8 +29,9 @@ const serverURL = 'http://localhost:4000';
 
 // Default: 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
 // The Directory + Filename of the lua stats file for node
-
-const statsDir = 'C:\\Users\\dcs\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
+// You will likely wish to edit windowsUsername, while leaving the rest as-is
+const windowsUsername = 'dcs';
+  const statsDir = 'C:\\Users\\'+ windowsUsername +'\\Saved Games\\Slmod\\slmod_official_lua_stats.lua';
 
 
 
