@@ -1,6 +1,6 @@
-git stash
-git pull origin master
-git stash apply
+call git stash
+call git pull origin master
+call git stash apply
 
+call npm update
 pause
-npm update
