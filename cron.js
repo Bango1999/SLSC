@@ -2,6 +2,7 @@ const process = require('process');
 const request = require('request');
 const lua2json = require('lua2json');
 const cron = require('node-cron');
+const crypto = require('crypto');
 const fs = require('fs');
 
 //config globals
@@ -34,19 +35,10 @@ function log(data, level) {
 // instantiate the task:
 // check periodically for new stats, send it to the mothership
 var task = cron.schedule(CONFIG.getSchedule(), function() {
-  //helper function, remove the stats.lua file so we wont keep sending the same 'new' data
-  function removeLua() {
-    log('   Removing old LUA...',i);
-    fs.unlink(CONFIG.getStatsDir(), function(err) {
-      if(err && err.code == 'ENOENT') { log('Old LUA does not exist, remove failed at ' + CONFIG.getStatsDir(), e) }
-      else if (err) { log(err, e) }
-      else { log('   Old LUA removed',i) }
-    });
-  }
   //helper function, backup the JSON object to a JSON file
   function backupJson(json) {
     log('   Backing up JSON to file...',i);
-    fs.writeFile(CONFIG.getJsonDir(), JSON.stringify(json),
+    fs.writeFile(CONFIG.getJsonPath(), JSON.stringify(json),
       function(err) {
         if (err) { log(err,e) }
         else { log('   Backup JSON saved',i) }
@@ -55,6 +47,7 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
   }
   //helper function, prints type of variable
   function send(obj) {
+    log('Sending updated stats',t);
     log('   Sending update to ' + CONFIG.getPostPath(),i);
     request.post(CONFIG.getPostPath(), {json: true, body: obj}, function(err, res, body) {
       if (res && res.statusCode === 200) {
@@ -66,7 +59,6 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
         }
         else if (res.body === 'pass') { log('S3 Server Update Successful',t) } //S3 Update Condition
         else { log('Update Sent',t) } //generic response
-        removeLua(); //delete the task trigger
       }
       else { log(err || res, e) }
 	    if (CONFIG.getWriteJson()) { backupJson(obj); } //backup json if applicable
@@ -83,33 +75,75 @@ var task = cron.schedule(CONFIG.getSchedule(), function() {
     serverjson['stats'] = json;
     return serverjson;
   }
-  //helper function, is called when there is a new lua file found
-  //parse lua to json, servify and send json
-  function sendNewJson() {
-    //process lua table into json string, write that string to file
-    lua2json.getVariable(CONFIG.getStatsDir(), CONFIG.getStatsVar(), function(err, json) {
+  //helper function, overwrite the old hash file
+  function writeHashFile(hash) {
+    //write the new stats hash to the old hash file
+    fs.writeFile(CONFIG.getHashPath(), hash, function(err) {
+      if(err) {
+        log('Error overwriting hash at ' + CONFIG.getHashPath(), e);
+      } else {
+        log('   Stats hash replaced', i);
+      }
+    });
+  }
+  //helper function, write the new hash, get JSON ready for S3 and send it
+  function updateAndSend(hash, json) {
+    writeHashFile(hash);
+    send(servify(json));
+  }
+  //helper function, compare the 2 hashes, send if necessary
+  function compareAndSend(newHash,json) {
+    //if old hash file exists, read it, compare it with newHash
+    if (fs.existsSync(CONFIG.getHashPath())) {
+      fs.readFile(CONFIG.getHashPath(), 'utf8', function (err,hash) {
+        if (err) {
+          log('Error reading Hash file at ' + CONFIG.getHashPath(), e);
+          return;
+        } else {
+          if (newHash != '' && hash != newHash) {
+            //weve got changes, so we need to update
+            updateAndSend(newHash, json);
+            return;
+          } else {
+            log('No new changes. Waiting...',t);
+            return;
+          }
+        }
+      });
+    //we dont have an old hash, but if we have a new one, thats good enough to update
+    } else if (newHash != '') {
+      updateAndSend(newHash, json);
+      return;
+    } else {
+      log('Error: New hash is an empty string',e);
+      return;
+    }
+    return;
+  }
+  //parent function, which is called each time the cron task runs
+  function sendLatestChanges() {
+    log(' ',t);
+    log('Checking for updated stats...',t);
+    //here is where we parse the lua to json
+    lua2json.getVariable(CONFIG.getStatsPath(), CONFIG.getStatsVar(), function(err, json) {
       if (err) {
 	       log('ERROR parsing LUA to JSON!  Be sure your config setting for statsDir is correct.',e);
 		     log(err,e);
-	      }
-      else {
+         return false;
+      } else {
         log('   LUA parsed to JSON',i);
-        send(servify(json));
+        //hash the new info, to compare with old hash
+        var newHash = crypto.createHash('md5').update(JSON.stringify(json)).digest("hex");
+        //offload the rest of the work like comparing and sending to this function
+        compareAndSend(newHash, json);
       }
     });
   }
 
   //---------------------------------------------------------------
-  //start actually doing stuff instead of defining helper functions
-  log(' ',t);
-  log('Checking for new LUA...',t);
-  if (fs.existsSync(CONFIG.getStatsDir())) {
-    log('Found new LUA!',t);
-    sendNewJson();
-  } else {
-    log('None Found. Waiting...',t);
-    log('Interval Setting: (' + CONFIG.getSchedule() +')',i);
-  }
+  //enough defining helper functions, do the stuff already!
+  sendLatestChanges();
+  log('Interval Setting: (' + CONFIG.getSchedule() +')',i);
 }, false);
 
 //start the cron task once and let it run until interrupt
