@@ -40,7 +40,7 @@ const serverURL = 'http://localhost:4000';
 //   You will likely need to edit windowsUsername
 //   If you are running a DCS other than stable, edit DCS folder name in dcsVersion
 //----------------------------
-  const windowsUsername = 'Bango';
+  const windowsUsername = 'Huckleberry';
   const dcsVersion = 'DCS'; // if youre in beta, it would be 'DCS.openbeta', etc
 const statsPath = 'C:\\Users\\'+ windowsUsername +'\\Saved Games\\'+ dcsVersion +'\\Slmod\\SlmodStats.lua';
 
