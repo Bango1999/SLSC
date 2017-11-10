@@ -66,7 +66,7 @@ const schedule = '* * * * *';
 // Default: false
 // Make true if you want to Backup the latest sent JSON data
 // ---------------------------
-const writeJson = true;
+const writeJson = false;
 
 
 // ---------------------------
