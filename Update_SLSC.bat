@@ -1,6 +1,6 @@
 @echo off
 for /f %%i in ('call git status --porcelain') do set stash=%%i
-if [%stash%] == [] (
+if not [%stash%] == [] (
   echo Stashing local changes...
   call git add .
   call git stash
