@@ -1,34 +1,17 @@
 @echo off
-
-
 for /f %%i in ('call git status --porcelain') do set stash=%%i
 if [%stash%] == [] (
-  echo "stash is empty"
-) else (
-  echo "stash plz"
+  echo Stashing local changes...
+  call git add .
+  call git stash
 )
+echo Updating SLSC App...
+call git pull origin master
+if [%stash%] == [] (
+  echo Restoring local changes...
+  call git stash apply
+)
+echo Updating SLSC Dependencies...
+call npm update
+echo Done
 pause
-exit /b
-
-
-
-rem delete the temp (current) hashfile
-  del /f hash\updater.hashfile.temp
-
-rem if we need to stash, do so
-  if "%stash_var%" == "1" (call git stash)
-
-rem git pull and tell the user whats happening
-  echo SLSC Updating...
-  call git pull origin master
-
-rem check again if we stashed, if so, unstash
-  if "%stash_var%" == "1" (call git stash apply)
-
-rem call npm update, tell the user whats happening
-  echo SLSC Updating Dependencies...
-  call npm update
-
-rem all done
-  echo Done
-  pause
