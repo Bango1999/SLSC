@@ -2,7 +2,11 @@
 
 
 for /f %%i in ('call git status --porcelain') do set stash=%%i
-echo stash = %stash%
+if [%stash%] == [] (
+  echo "stash is empty"
+) else (
+  echo "stash plz"
+)
 pause
 exit /b
 
