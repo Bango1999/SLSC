@@ -7,7 +7,7 @@ if not [%stash%] == [] (
 )
 echo Updating SLSC App...
 call git pull origin master
-if [%stash%] == [] (
+if not [%stash%] == [] (
   echo Restoring local changes...
   call git stash apply
 )
