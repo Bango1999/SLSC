@@ -16,7 +16,7 @@ If you do not plan on running an S3 server, that's OK too!  SLSC is agnostic.  Y
 - Git
 - [Node.js](https://nodejs.org/en/download/)
 - Be hosting a DCS mission using [SLmod](https://github.com/mrSkortch/DCS-SLmod/tree/develop)
-- ( Optional ) Create/have someone create/someone already created an [S3](https://github.com/Bango1999/S3) server ([See it in action](http://stats.229ahb.com:4000/))
+- ( Optional ) Create/have someone create/someone already created an [S3](https://github.com/Bango1999/S3) server ([See it in action](http://webdev.science:229))
 
 ## Usage
 
